@@ -1,11 +1,11 @@
 #include "game.h"
 
+#include <raylib.h>
+#include <rcamera.h>
 #include <iostream>
 #include <print>
 #include <algorithm>
 #include <format>
-#include <raylib.h>
-#include <rcamera.h>
 
 
 Game::Game() {
@@ -38,8 +38,8 @@ Game::Game() {
 
 		UpdateThirdPersonCamera(&camera, currentSpeed);
 
-		if (IsKeyDown(KEY_Q) || GetMouseWheelMove() > 0) currentSpeed *= 1.04f;
-		if ((IsKeyDown(KEY_E) || GetMouseWheelMove() < 0) && currentSpeed != 1)  currentSpeed /= 1.04f;
+		if (IsKeyDown(KEY_Q) || GetMouseWheelMove() > 0) currentSpeed += 0.1f;
+		if ((IsKeyDown(KEY_E) || GetMouseWheelMove() < 0) && currentSpeed > 1)  currentSpeed -= 0.1f;
 
 		BeginDrawing();
 
@@ -55,9 +55,9 @@ Game::Game() {
 		DrawCubeWires(camera.target, 1.0f, 1.0f, 1.0f, YELLOW);
 		DrawGrid(1000, 1.0f);
 		EndMode3D();
-
+		
 		DrawText(std::format("speed: {:06} globules per hobgoblin", currentSpeed).c_str(), 10, 10, 40, YELLOW);
-
+		
 		EndDrawing();
 	}
 
@@ -111,20 +111,6 @@ void Game::UpdateThirdPersonCamera(Camera* camera, float currentSpeed) {
 
 }
 
-class Pisser {
-public:
-	Pisser(int piss) {
-		this->piss = piss;
-	}
-	void Piss() {
-		this->piss++;
-		std::println("piss {}", this->piss);
-	}
-private:
-	int piss;
-};
-
 void Game::HandleInput() {
-	Pisser pisser = { 5 };
-	pisser.Piss();
+
 }

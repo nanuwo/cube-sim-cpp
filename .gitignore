@@ -1,5 +1,3 @@
 out
-.vs
-.vscode
 build
-vcpkg_installed
+.vs

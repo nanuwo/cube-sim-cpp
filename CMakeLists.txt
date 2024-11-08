@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.5.0)
-project(raylib-testing VERSION 0.1.0 LANGUAGES C CXX)
+project(cube-simulator-cpp VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 
-# Setup vcpkg
-include("$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+include(FetchContent)
+set(FETCHCONTENT_QUIET OFF)
+FetchContent_Declare(
+	raylib
+	GIT_REPOSITORY https://github.com/raysan5/raylib
+)
 
-if (WIN32)
-	set(VCPKG_TARGET_TRIPLET x64-windows-static)
-endif()
+FetchContent_MakeAvailable(raylib)
 
-# Locate and setup raylib library 
-find_package(raylib REQUIRED)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # Don't build the supplied examples
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # Don't build the supplied example games
-
+set(INCLUDE_EVERYTHING ON CACHE BOOL "" FORCE)
 # Locate enet library
-find_package(unofficial-enet REQUIRED)
+# find_package(unofficial-enet REQUIRED)
 
 # Adding our source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp") # Define PROJECT_SOURCES as a list of all source files
@@ -26,9 +26,7 @@ set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/src/") # Define PROJECT_INCLUDE t
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
-target_link_libraries(${PROJECT_NAME} raylib enet)
-
-
+target_link_libraries(${PROJECT_NAME} raylib)
 
 # Setting ASSETS_PATH
 if (CMAKE_CPP_FLAGS_RELEASE)

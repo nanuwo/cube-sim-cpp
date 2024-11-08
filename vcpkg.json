@@ -4,6 +4,9 @@
       "name": "raylib",
       "version>=": "5.0"
     },
-    { "name": "enet", "version>=": "1.3.18" }
+    {
+      "name": "enet",
+      "version>=": "1.3.18"
+    }
   ]
 }
