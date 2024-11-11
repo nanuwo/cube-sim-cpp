@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0)
 
-# Include vcpkg
-# set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
-
 # Define project
 project(cube-simulator-cpp VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
@@ -32,6 +29,8 @@ FetchContent_Declare(
     URL https://github.com/lsalzman/enet/archive/refs/tags/${ENET_VERSION}.tar.gz
 )
 FetchContent_GetProperties(enet)
+
+# Workaround to ENet header files not appearing
 if (NOT enet_POPULATED)
     FetchContent_Populate(enet)
     include_directories("${enet_SOURCE_DIR}/include")
