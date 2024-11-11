@@ -7,13 +7,12 @@
 #include <algorithm>
 #include <format>
 
-
 Game::Game() {
 
 	m_windowWidth = 1024;
 	m_windowHeight = 640;
 
-	InitWindow(m_windowWidth, m_windowHeight, "cube simulator 3d");
+	InitWindow(m_windowWidth, m_windowHeight, "cube simulator 3d 2: it's cubin' time");
 	SetWindowState(FLAG_WINDOW_RESIZABLE);
 
 	camera = { 0 };
@@ -29,8 +28,6 @@ Game::Game() {
 	PlayMusicStream(doomMusic);
 
 	float currentSpeed = 1.0f;
-
-	this->HandleInput();
 
 	while (!WindowShouldClose()) {
 
@@ -57,6 +54,7 @@ Game::Game() {
 		EndMode3D();
 		
 		DrawText(std::format("speed: {:06} globules per hobgoblin", currentSpeed).c_str(), 10, 10, 40, YELLOW);
+		DrawText(std::format("x: {} y: {} z: {}", camera.position.x, camera.position.y, camera.position.z).c_str(), 10, 100, 40, YELLOW);
 		
 		EndDrawing();
 	}
@@ -78,7 +76,7 @@ void Game::ToggleFullscreen() {
 		int currentMonitor = GetCurrentMonitor();
 		SetWindowSize(GetMonitorWidth(currentMonitor), GetMonitorHeight(currentMonitor));
 	}
-	ToggleFullscreen();
+	::ToggleFullscreen();
 }
 
 
@@ -111,6 +109,4 @@ void Game::UpdateThirdPersonCamera(Camera* camera, float currentSpeed) {
 
 }
 
-void Game::HandleInput() {
 
-}

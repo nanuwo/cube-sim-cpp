@@ -10,7 +10,5 @@ private:
 	int m_windowHeight;
 	Camera3D camera;
 	void UpdateThirdPersonCamera(Camera* camera, float currentSpeed);
-	void HandleInput();
 	void ToggleFullscreen();
-	
 };

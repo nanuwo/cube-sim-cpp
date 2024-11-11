@@ -1,32 +1,53 @@
 cmake_minimum_required(VERSION 3.5.0)
-project(cube-simulator-cpp VERSION 0.1.0 LANGUAGES CXX)
 
+# Include vcpkg
+# set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+
+# Define project
+project(cube-simulator-cpp VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 
+set(RAYLIB_VERSION 5.0)
+set(ENET_VERSION v1.3.18)
 include(FetchContent)
-set(FETCHCONTENT_QUIET OFF)
+
+# Locate and configure raylib with FetchContent
 FetchContent_Declare(
-	raylib
-	GIT_REPOSITORY https://github.com/raysan5/raylib
+    raylib
+    DOWNLOAD_EXTRACT_TIMESTAMP OFF
+    URL https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz
 )
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # Don't build the supplied examples
+set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # Don't build the supplied example 
 
 FetchContent_MakeAvailable(raylib)
 
-set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # Don't build the supplied examples
-set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # Don't build the supplied example games
-set(INCLUDE_EVERYTHING ON CACHE BOOL "" FORCE)
-# Locate enet library
+# ENet with vcpkg 
 # find_package(unofficial-enet REQUIRED)
+
+# ENet with FetchContent
+FetchContent_Declare(
+    enet
+    DOWNLOAD_EXTRACT_TIMESTAMP OFF
+    URL https://github.com/lsalzman/enet/archive/refs/tags/${ENET_VERSION}.tar.gz
+)
+FetchContent_GetProperties(enet)
+if (NOT enet_POPULATED)
+    FetchContent_Populate(enet)
+    include_directories("${enet_SOURCE_DIR}/include")
+    add_subdirectory(${enet_SOURCE_DIR} ${enet_BINARY_DIR})
+endif()
 
 # Adding our source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp") # Define PROJECT_SOURCES as a list of all source files
 set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/src/") # Define PROJECT_INCLUDE to be the path to the include directory of the project
+include_directories("extern/")
 
 # Declaring our executable
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
-target_link_libraries(${PROJECT_NAME} raylib)
+target_link_libraries(${PROJECT_NAME} raylib enet)
 
 # Setting ASSETS_PATH
 if (CMAKE_CPP_FLAGS_RELEASE)
