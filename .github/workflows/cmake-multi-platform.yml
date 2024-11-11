@@ -50,9 +50,7 @@ jobs:
     - name: Install Linux build dependencies
       run: |
           sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev
-      with:
-        os: ubuntu-latest
-
+      if: matrix.os == 'ubuntu-latest'
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
