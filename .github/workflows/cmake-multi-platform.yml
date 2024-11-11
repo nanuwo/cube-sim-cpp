@@ -46,6 +46,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+  
+    - name: Install Linux build dependencies
+      run: |
+          sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev
+      with:
+        os: ubuntu-latest
+
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -75,7 +82,7 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
 
     - name: Copy executable
-      run: cp ${{ steps.strings.outputs.build-output-dir }} .
+      run: cp ${{ steps.strings.outputs.build-output-dir }}/cube-simulator* .
 
     - name: Publish artifact
       uses: actions/upload-artifact@v4
