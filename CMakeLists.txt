@@ -19,23 +19,14 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # Don't build the supplied example
 
 FetchContent_MakeAvailable(raylib)
 
-# ENet with vcpkg 
-# find_package(unofficial-enet REQUIRED)
-
 # ENet with FetchContent
 FetchContent_Declare(
     enet
     DOWNLOAD_EXTRACT_TIMESTAMP OFF
     URL https://github.com/lsalzman/enet/archive/refs/tags/${ENET_VERSION}.tar.gz
 )
-FetchContent_GetProperties(enet)
-
-# Workaround to ENet header files not appearing
-if (NOT enet_POPULATED)
-    FetchContent_Populate(enet)
-    include_directories("${enet_SOURCE_DIR}/include")
-    add_subdirectory(${enet_SOURCE_DIR} ${enet_BINARY_DIR})
-endif()
+FetchContent_MakeAvailable(enet)
+include_directories(${enet_SOURCE_DIR}/include)
 
 # Adding our source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp") # Define PROJECT_SOURCES as a list of all source files
