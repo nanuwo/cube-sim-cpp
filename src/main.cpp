@@ -8,7 +8,7 @@ enum class AppState {
 	Running,
 };
 
-void SwitchFullscreen(int &windowWidth, int &windowHeight) {
+void SwitchFullscreen(int& windowWidth, int& windowHeight) {
 	if (IsWindowFullscreen()) {
 		ToggleFullscreen();
 		SetWindowSize(windowWidth, windowHeight);
