@@ -6,7 +6,7 @@
 
 void Game::Update() {
 	this->Draw();
-	HandleInput();
+	this->HandleInput();
 }
 
 void Game::HandleInput() {
@@ -56,8 +56,8 @@ void Game::Draw() {
 	EndMode3D();
 
 	// Draw HUD
-	DrawText(std::format("speed: {:06} globules per hobgoblin", m_currentSpeed).c_str(), 10, 10, 40, YELLOW);
-	DrawText(std::format("x: {} y: {} z: {}", m_camera.target.x, m_camera.target.y, m_camera.target.z).c_str(), 10, 100, 40, YELLOW);
+	DrawText(std::format("speed: {:.2f} globules per hobgoblin", m_currentSpeed).c_str(), 10, 10, 40, YELLOW);
+	DrawText(std::format("x: {:.2f} y: {:.2f} z: {:.2f}", m_camera.target.x, m_camera.target.y, m_camera.target.z).c_str(), 10, 50, 40, YELLOW);
 
 	EndDrawing();
 }
