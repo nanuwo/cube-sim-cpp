@@ -8,5 +8,5 @@ public:
 	~AudioManager();
 	void Update();
 private:
-	Music doomMusic;
+	Music doomMusic { LoadMusicStream(ASSETS_PATH"doom.ogg") };
 };

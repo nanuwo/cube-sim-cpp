@@ -2,7 +2,6 @@
 
 AudioManager::AudioManager() {
 	InitAudioDevice();
-	doomMusic = LoadMusicStream(ASSETS_PATH"doom.ogg");
 	PlayMusicStream(doomMusic);
 }
 

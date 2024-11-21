@@ -1,13 +1,10 @@
 #include "audio.h"
-#include "game.h"
+#include "app.h"
+#define RAYGUI_IMPLEMENTATION
+#include <raygui.h>
 #include <format>
 
-
-enum class AppState {
-	Menu,
-	Running,
-};
-
+// Workaround for raylib not fully going into fullscreen mode
 void SwitchFullscreen(int& windowWidth, int& windowHeight) {
 	if (IsWindowFullscreen()) {
 		ToggleFullscreen();
@@ -19,20 +16,20 @@ void SwitchFullscreen(int& windowWidth, int& windowHeight) {
 		SetWindowSize(GetMonitorWidth(monitor), GetMonitorHeight(monitor));
 		ToggleFullscreen();
 	}
-	
 }
 
-int main() {
 
-	int windowWidth = 1024;
-	int windowHeight = 640;
+int main() {
+	int windowWidth { 1024 };
+	int windowHeight { 640 };
 
 	InitWindow(windowWidth, windowHeight, "cube simulator 3d 2: it's cubin' time");
 	SetWindowState(FLAG_WINDOW_RESIZABLE);
-	DisableCursor();
+	SetConfigFlags(FLAG_WINDOW_HIGHDPI);
+	SetExitKey(KEY_NULL);
+	GuiSetStyle(DEFAULT, TEXT_SIZE, 50);
 
-	Game game{};
-	AudioManager audioManager{};
+	App app {};
 
 	while (!WindowShouldClose()) {
 
@@ -40,8 +37,6 @@ int main() {
 			SwitchFullscreen(windowWidth, windowHeight);
 		}
 
-		audioManager.Update();
-		game.Update();
 	}
 	CloseWindow();
 }
