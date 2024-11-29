@@ -31,7 +31,7 @@ jobs:
       uses: lukka/run-cmake@v10
       with:
         configurePreset: x64-release
-        buildPreset: ninja-vcpkg-release
+        buildPreset: windows-ninja-release
 
     - run: ls ${{github.workspace}}/out/build/x64-release
     - name: Copy executable
