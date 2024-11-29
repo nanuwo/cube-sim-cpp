@@ -5,6 +5,8 @@
 
 class MainMenu {
 public:
+	MainMenu();
+
 	void handleInput();
 	void update();
 	void draw();
@@ -38,6 +40,7 @@ class App {
 private:
 	int m_windowWidth = GetScreenWidth();
 	int m_windowHeight = GetScreenHeight();
+	bool m_shouldClose = false;
 	std::variant<MainMenu, Gameplay> m_currentState;
 	Music m_music = LoadMusicStream(ASSETS_PATH"doom.ogg");
 
@@ -56,6 +59,8 @@ public:
 		m_currentState = State {};
 	}
 
+	bool shouldClose();
+	void close();
 	void handleInput();
 	void update();
 	void draw();

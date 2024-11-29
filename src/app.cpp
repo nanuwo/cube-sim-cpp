@@ -24,7 +24,18 @@ App::~App() {
 	UnloadMusicStream(m_music);
 }
 
+bool App::shouldClose() {
+	return m_shouldClose;
+}
+
+void App::close() {
+	m_shouldClose = true;
+}
+
 void App::handleInput() {
+	if (IsKeyPressed(KEY_F11)) {
+		this->toggleFullscreen();
+	}
 	std::visit(Overload {
 			[](MainMenu& menu) {
 				menu.handleInput();
@@ -73,6 +84,10 @@ void App::toggleFullscreen() {
 	}
 }
 
+MainMenu::MainMenu() {
+	SetExitKey(KEY_ESCAPE);
+}
+
 void MainMenu::handleInput() {
 	//TODO: idk
 }
@@ -82,18 +97,25 @@ void MainMenu::update() {
 }
 
 void MainMenu::draw() {
+	ClearBackground(BLACK);
 	const float centreX = static_cast<float>(GetRenderWidth() / 2);
 	const float centreY = static_cast<float>(GetRenderHeight() / 2);
 	const Rectangle centredRectangle {
-		.x = centreX - 450,
-		.y = centreY - 250,
-		.width = centreX + 450,
-		.height = centreY + 250
+		.x = centreX - 250,
+		.y = centreY - 60,
+		.width = centreX + 250,
+		.height = centreY + 60
 	};
-	if (GuiButton(centredRectangle, "HELLO MAN")) {
+	
+	if (GuiButton(centredRectangle, "play the game")) {
 		std::println("HELLO MAN");
 		App::getInstance().setState<Gameplay>();
 	}
+
+	if (GuiButton(Rectangle {600, 600, 100, 100}, "do not play the game")) {
+		App::getInstance().shouldClose();
+	}
+	
 }
 
 void Gameplay::update() {
@@ -120,7 +142,10 @@ void Gameplay::draw() {
 
 	//Draw pause menu
 	if (m_showMenu) {
-
+		DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(BLACK, 0.5));
+		if (GuiButton(Rectangle {100, 100, 500, 100}, "go bac to menu")) {
+			App::getInstance().setState<MainMenu>();
+		}
 	}
 }
 
@@ -163,6 +188,7 @@ void Gameplay::handleInput() {
 
 Gameplay::Gameplay() {
 	DisableCursor();
+	SetExitKey(KEY_NULL);
 }
 
 
