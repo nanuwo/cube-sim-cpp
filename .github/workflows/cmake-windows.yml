@@ -33,6 +33,7 @@ jobs:
         configurePreset: x64-release
         buildPreset: ninja-vcpkg-release
 
+    - run: ls ${{github.workspace}}/out/build/x64-release
     - name: Copy executable
       run: cp ${{github.workspace}}/out/build/x64-release/cube-simulator.exe .
 
