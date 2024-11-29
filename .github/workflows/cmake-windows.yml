@@ -33,7 +33,7 @@ jobs:
         configurePreset: x64-debug
 
     - name: Copy executable
-      run: cp ${{github.workspace}}/cube-simulator.exe .
+      run: cp ${{github.workspace}}/out/build/cube-simulator.exe .
 
     - name: Publish artifact
       uses: actions/upload-artifact@v4
