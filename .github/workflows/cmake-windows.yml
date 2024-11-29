@@ -30,10 +30,10 @@ jobs:
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
       uses: lukka/run-cmake@v10
       with:
-        configurePreset: x64-debug
+        configurePreset: x64-release
 
     - name: Copy executable
-      run: cp ${{github.workspace}}/out/build/cube-simulator.exe .
+      run: cp ${{github.workspace}}/out/build/x64-release/cube-simulator.exe .
 
     - name: Publish artifact
       uses: actions/upload-artifact@v4
