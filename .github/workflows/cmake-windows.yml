@@ -31,6 +31,7 @@ jobs:
       uses: lukka/run-cmake@v10
       with:
         configurePreset: x64-release
+        buildPreset: ninja-vcpkg-release
 
     - name: Copy executable
       run: cp ${{github.workspace}}/out/build/x64-release/cube-simulator.exe .
