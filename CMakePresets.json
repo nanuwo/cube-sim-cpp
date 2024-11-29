@@ -77,8 +77,8 @@
   ],
   "buildPresets": [
     {
-      "name": "ninja-vcpkg-release",
-      "configurePreset": "ninja-multi-vcpkg",
+      "name": "windows-ninja-vcpkg-release",
+      "configurePreset": "x64-release",
       "displayName": "Build (Release)",
       "description": "Build with Ninja/vcpkg (Release)",
       "configuration": "Release"
