@@ -37,11 +37,6 @@ jobs:
       with:
         configurePreset: x64-debug
 
-
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
     - name: Copy executable
       run: cp ${{github.workspace}}/cube-simulator.exe .
 
