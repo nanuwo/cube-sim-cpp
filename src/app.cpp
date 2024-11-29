@@ -97,29 +97,26 @@ void MainMenu::update() {
 }
 
 void MainMenu::draw() {
-	ClearBackground(BLACK);
-	const float centreX = static_cast<float>(GetRenderWidth() / 2);
-	const float centreY = static_cast<float>(GetRenderHeight() / 2);
-	const Rectangle centredRectangle {
-		.x = centreX - 250,
-		.y = centreY - 60,
-		.width = centreX + 250,
-		.height = centreY + 60
-	};
-	
-	if (GuiButton(centredRectangle, "play the game")) {
-		std::println("HELLO MAN");
+	ClearBackground(GREEN);
+	const char* title = "cube simulator 3d 2";
+	const char* subtitle = "it's cubin' time";
+	const int titleSize = 100;
+	const int subtitleSize = 50;
+	const int screenCentreX = GetRenderWidth() / 2;
+	const int screenCentreY = GetRenderHeight() / 2;
+	DrawText(title, screenCentreX - MeasureText(title, titleSize) / 2, screenCentreY + 50, titleSize, YELLOW);
+	DrawText(subtitle, screenCentreX - MeasureText(subtitle, subtitleSize) / 2, screenCentreY - 50, subtitleSize, ORANGE);
+	if (GuiButton(Rectangle{100.0f, 100.0f, 600.0f, 100.0f}, "play the game")) {
 		App::getInstance().setState<Gameplay>();
 	}
 
-	if (GuiButton(Rectangle {600, 600, 100, 100}, "do not play the game")) {
-		App::getInstance().shouldClose();
+	if (GuiButton(Rectangle {GetRenderWidth() - 700.0f, GetRenderHeight() - 200.0f, 600.0f, 100.0f}, "unplay the game")) {
+		App::getInstance().close();
 	}
-	
 }
 
 void Gameplay::update() {
-	//TODO: add physics logic here
+	
 }
 
 void Gameplay::draw() {
@@ -142,9 +139,13 @@ void Gameplay::draw() {
 
 	//Draw pause menu
 	if (m_showMenu) {
-		DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(BLACK, 0.5));
+		DrawRectangle(0, 0, GetRenderWidth(), GetRenderHeight(), Fade(BLACK, 0.5));
 		if (GuiButton(Rectangle {100, 100, 500, 100}, "go bac to menu")) {
 			App::getInstance().setState<MainMenu>();
+		}
+
+		if (GuiButton(Rectangle {GetRenderWidth() - 1000.0f, GetRenderHeight() - 200.0f, 900.0f, 100.0f}, "play more of hit game cube simulator 3d 2")) {
+			this->toggleMenu();
 		}
 	}
 }
@@ -163,7 +164,7 @@ void Gameplay::handleInput() {
 		constexpr bool rotateUp = false;
 
 		// Camera speeds based on frame time
-		float cameraMoveSpeed = (5.4f + m_currentSpeed) * GetFrameTime();
+		const float cameraMoveSpeed = (5.4f + m_currentSpeed) * GetFrameTime();
 
 		// Mouse support
 		CameraYaw(&m_camera, -mousePositionDelta.x * 0.003f, rotateAroundTarget);
@@ -174,6 +175,13 @@ void Gameplay::handleInput() {
 		if (IsKeyDown(KEY_A)) CameraMoveRight(&m_camera, -cameraMoveSpeed, moveInWorldPlane);
 		if (IsKeyDown(KEY_S)) CameraMoveForward(&m_camera, -cameraMoveSpeed, moveInWorldPlane);
 		if (IsKeyDown(KEY_D)) CameraMoveRight(&m_camera, cameraMoveSpeed, moveInWorldPlane);
+
+		//Jumping
+		if (IsKeyDown(KEY_SPACE)) {
+			CameraMoveUp(&m_camera, cameraMoveSpeed);
+		} else if (m_camera.target.y > 0) {
+			CameraMoveUp(&m_camera, -cameraMoveSpeed);
+		}
 
 		// Zoom target distance
 		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) CameraMoveToTarget(&m_camera, -0.2f);
