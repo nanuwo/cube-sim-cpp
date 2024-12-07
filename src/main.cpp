@@ -15,7 +15,7 @@ int main() {
 	InitAudioDevice();
 
 	App& app = App::getInstance();
-	app.setState<MainMenu>();
+	app.setState(std::make_unique<MainMenu>());
 	while (!WindowShouldClose() && !app.shouldClose()) {
 		app.handleInput();
 		app.update();

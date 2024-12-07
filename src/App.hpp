@@ -1,48 +1,33 @@
 #pragma once
+#include "BeeModel.hpp"
 #include <raylib.h>
 #include <memory>
-#include <variant>
 
-class MainMenu {
+class AppState {
+public:
+	virtual ~AppState() = default;
+	virtual void handleInput() = 0;
+	virtual void update() = 0;
+	virtual void draw() = 0;
+};
+
+class MainMenu : public AppState {
 public:
 	MainMenu();
-
-	void handleInput();
-	void update();
-	void draw();
-};
-
-
-class Gameplay {
-private:
-	bool m_showMenu = false;
-	float m_currentSpeed = 0;
-	Camera3D m_camera {
-		.position {10.0f, 10.0f, 10.0f},
-		.target {0.0f, 0.0f, 0.0f},
-		.up {0.0f, 1.0f, 0.0f},
-		.fovy = 70.0f,
-		.projection = CameraProjection::CAMERA_PERSPECTIVE,
-	};
-
-	void toggleMenu();
 	
-public:
-	Gameplay();
-
-	void handleInput();
-	void update();
-	void draw();
+	void handleInput() override;
+	void update() override;
+	void draw() override;
 };
-
 
 class App {
 private:
 	int m_windowWidth = GetScreenWidth();
 	int m_windowHeight = GetScreenHeight();
 	bool m_shouldClose = false;
-	std::variant<MainMenu, Gameplay> m_currentState;
+	std::unique_ptr<AppState> m_currentState;
 	Music m_music = LoadMusicStream(ASSETS_PATH"doom.ogg");
+	BeeModel m_beeModel {};
 
 	App();
 	~App();
@@ -54,16 +39,13 @@ private:
 public:
 	static App& getInstance();
 
-	template <typename State>
-	void setState() {
-		m_currentState = State {};
-	}
-
+	void setState(std::unique_ptr<AppState> newState);
 	bool shouldClose();
 	void close();
 	void handleInput();
 	void update();
 	void draw();
 	void toggleFullscreen();
+	BeeModel& getBeeModel();
 };
 
