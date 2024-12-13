@@ -10,7 +10,6 @@ private:
 	ModelAnimation* m_anims = LoadModelAnimations(ASSETS_PATH"bee.glb", &m_animsCount);
 
 public:
-	BeeModel();
 	~BeeModel();
 	BeeModel(const BeeModel&) = delete;
 	BeeModel& operator=(const BeeModel&) = delete;

@@ -95,6 +95,14 @@ void Gameplay::handleInput() {
 		// Set current speed based on key/mouse movement
 		if (IsKeyDown(KEY_Q) || GetMouseWheelMove() > 0) m_currentSpeed += 0.1f;
 		if ((IsKeyDown(KEY_E) || GetMouseWheelMove() < 0) && m_currentSpeed > 1) m_currentSpeed -= 0.1f;
+
+		if (IsKeyPressed(KEY_P)) {
+			if (m_camera.projection == CAMERA_PERSPECTIVE) {
+				m_camera.projection = CAMERA_ORTHOGRAPHIC;
+			} else {
+				m_camera.projection = CAMERA_PERSPECTIVE;
+			}
+		}
 	}
 }
 

@@ -1,16 +1,15 @@
 #include "BeeModel.hpp"
-
-BeeModel::BeeModel() {
-}
+#include <iostream>
 
 BeeModel::~BeeModel() {
 	UnloadModel(m_model);
+	UnloadModelAnimations(m_anims, m_animsCount);
 }
 
 void BeeModel::update() {
-	ModelAnimation anim = m_anims[m_animIndex];
+	ModelAnimation anim = m_anims[1];
 	m_animCurrentFrame = (m_animCurrentFrame + 1) % anim.frameCount;
-	UpdateModelAnimation(m_model, anim, m_animCurrentFrame);
+	//UpdateModelAnimation(m_model, anim, m_animCurrentFrame);
 }
 
 Model& BeeModel::getModel() {
