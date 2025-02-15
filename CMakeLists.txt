@@ -18,8 +18,8 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # Don't build the supplied example
 FetchContent_MakeAvailable(raylib)
 
 # Add other dependencies via vcpkg
-find_path(RAYGUI_INCLUDE_DIRS "raygui.h")
-find_package(unofficial-enet REQUIRED)
+#find_path(RAYGUI_INCLUDE_DIRS "raygui.h")
+#find_package(enet REQUIRED)
 
 # Adding our source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp") # Define PROJECT_SOURCES as a list of all source files
@@ -29,8 +29,8 @@ include_directories("extern/")
 # Declaring our executable
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE} ${RAYGUI_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} raylib unofficial::enet::enet)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
+target_link_libraries(${PROJECT_NAME} raylib)
 
 # Setting ASSETS_PATH
 if (CMAKE_BUILD_TYPE STREQUAL "Release")

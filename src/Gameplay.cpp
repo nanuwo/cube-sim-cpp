@@ -33,7 +33,7 @@ void Gameplay::draw() {
 	DrawCube(m_camera.target, 1.0f, 1.0f, 1.0f, RED);
 	DrawCubeWires(m_camera.target, 1.0f, 1.0f, 1.0f, YELLOW);
 	DrawGrid(1000, 1.0f);
-	DrawModel(App::getInstance().getBeeModel().getModel(), Vector3 {1.0f, 1.0f, 1.0f}, 1.0f, WHITE);
+	DrawModel(App::getInstance().getBeeModel().getModel(), Vector3 {1.0f, 1.0f, 1.0f}, 100.0f, WHITE);
 
 	EndMode3D();
 
